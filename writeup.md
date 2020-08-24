@@ -9,7 +9,7 @@ The compilation with `cmake` does not return any errors on WSL. There were no ch
 
 ### **The car is able to drive at least 4.32 miles without incident..**
 I ran the simulator for a distance of 10 miles without experiencing any incident. 
-![Simulator 10 miles](./Unbenannt.PNG)
+![Simulator 10 miles](./Simulator.PNG)
 
 ### **The car drives according to the speed limit.**
 The desired speed in free floating traffic is set in line 157 of *main.cpp* to `max_speed = 49.95 mph`. During the test runs of the program, no speed limit violation was observed.
