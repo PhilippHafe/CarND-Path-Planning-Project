@@ -114,7 +114,7 @@ int main()
            * Logic for considering other cars / traffic objects
            **/
 
-          
+
           if (prev_size > 0){
             car_s = end_path_s;
           }
@@ -153,28 +153,31 @@ int main()
           /* 
           *   BEHAVIOR PLANNING
           */
-        double speed_diff = 0;
-        double max_speed = 49.95;
-        double max_acc = 0.224;
 
-        if (to_ahead){
-          if (!to_left && ego_lane > 0){
-            ego_lane--;
-          } else if (!to_right && ego_lane != 2){
-            ego_lane++;
-          } else {
-            speed_diff -= max_acc;
-          }
-        } else {
-          if (ego_lane != 1){
-            if ( (ego_lane == 0 && !to_right) || (ego_lane == 2 && !to_left)){
-              ego_lane = 1;
+          // Set variables for adjusting the speed
+          double speed_diff = 0;
+          double max_speed = 49.95;
+          double max_acc = 0.224;
+
+          // Lane change logic
+          if (to_ahead){ //If there is a vehicle in front ...
+            if (!to_left && ego_lane > 0){ //... and no vehicle on the left while ego is not on the leftmost lane
+              ego_lane--; // then perform a lane change to the left
+            } else if (!to_right && ego_lane != 2){ // ... and no vehicle on the right while ego is not on the rightmost lane
+              ego_lane++; // perform lane change right
+            } else { // i.e. no lane change possible, then reduce speed
+              speed_diff -= max_acc;
+            }
+          } else { // If there is no vehicle in front ...
+            if (ego_lane != 1){ // ... and we are not in the middle ...
+              if ( (ego_lane == 0 && !to_right) || (ego_lane == 2 && !to_left)){ // .. and the middle is free (depending from which lane ego is looking at the middle) ...
+                ego_lane = 1; // Perform lane change to the middle lane
+              }
+            }
+            if (ref_vel < max_speed){ // If the current ref_vel is below the max_speed, then accelerate
+              speed_diff += max_acc;
             }
           }
-          if (ref_vel < max_speed){
-            speed_diff += max_acc;
-          }
-        }
 
           /** 
            * ANCHOR POINT DEFINITION AND PATH PLANNER FILLUP
