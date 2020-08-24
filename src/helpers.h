@@ -154,4 +154,18 @@ vector<double> getXY(double s, double d, const vector<double> &maps_s,
   return {x,y};
 }
 
+// Function returns the lane index as a function of the d-variable
+int get_lane(double d){
+  //lane = 0 (left), 1 (middle), 2 (right)
+  int lane = -1;
+  if (d>0 && d<4){
+    lane = 0;
+  } else if (d>4 && d<8){
+    lane = 1;
+  } else if (d>8 && d<12){
+    lane = 2;
+  }
+  return lane;
+}
+
 #endif  // HELPERS_H
